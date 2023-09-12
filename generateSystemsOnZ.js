@@ -49,15 +49,15 @@ const genSysOnZ = async (systemId, carnumber, systems, cardatas) => {
         }]
     }
 
-    const create = {"$addToSet": {"tipuls": tipulToAdd, "systems": systemToAdd}};
+    const create = {$addToSet: {tipuls: tipulToAdd, systems: systemToAdd}};
     const updates = [];
-    if (technology["mashbit"] == "1")
-        updates.push({"$set": {"kshirot":"לא כשיר"}})
-    if (technology["mashbit"] == "2")
-        updates.push({"$set": {"zminot":"לא זמין"}})
+    if (technology.mashbit == "1")
+        updates.push({$set: {kshirot:"לא כשיר"}})
+    if (technology.mashbit == "2")
+        updates.push({$set: {zminot:"לא זמין"}})
 
-    if (["1", "2"].includes(technology["mashbit"]))
-        updates.push({"$set": {"expected_repair":"עד 6 שעות"}})
+    if (["1", "2"].includes(technology.mashbit))
+        updates.push({$set: {expected_repair:"עד 6 שעות"}})
 
     await cardatas.updateOne({carnumber}, create);
     if (updates.length !== 0){

@@ -20,14 +20,14 @@ const genSysOnZ = async (systemId, carnumber, systems, cardatas) => {
         kashir: true
     };
 
-    const needTipul = Math.random() < 0.6;
+    const needTipul = Math.random() < 0.8;
     if (!needTipul) {
         await cardatas.updateOne({carnumber}, {$addToSet: {systems: systemToAdd}})
         return;
     }
 
     systemToAdd.kashir = false;
-    const needHH = Math.random() < 0.8;
+    const needHH = Math.random() < 0.4;
     const technologyRes = await systems.find({_id: new ObjectId(systemId)}).toArray();
     const technology = technologyRes[0];
     const tipulToAdd = {};
@@ -45,7 +45,7 @@ const genSysOnZ = async (systemId, carnumber, systems, cardatas) => {
     if (needHH){
         tipulToAdd["hh_stands"] = [{
             missing_makat_1: makeid(7),
-            missing_makat_2: Math.floor(Math.random() * 999).toFixed()
+            missing_makat_2: Math.floor(Math.random() * 99).toFixed()
         }]
     }
 

@@ -53,12 +53,11 @@ const SystemsOnZ= mongoose.model('SystemsOnZ', systemonzSchema);
 const onConnection = async () => {
 
     const results = await Cardata.find({});
-
     await Promise.all(results.map(async (result) => {
         const carnumber = result.carnumber;
         const systemResults = await SystemsOnZ.find({carnumber});
 
-        if (systemResults.length === 0)
+        if (systemResults.length === 0) 
             return;
 
             await Promise.all(systemResults.map(async (systemResult) => {
@@ -88,7 +87,17 @@ const onConnection = async () => {
     }
 
 
+const reverse = async () => {
+    const cardatas = await Cardata.find({});
+
+    await Promise.all(cardatas.map(async (cardata) => {
+        if (cardata.systems && cardata.systems.length > 0){
+            await cardata.updateOne({systems: []})
+        }
+    }));
+}
+
 
 mongoose.connect("mongodb://localhost:27017/Bazak")
-.then(onConnection)
+.then(reverse)
 .then(() => mongoose.connection.close());
